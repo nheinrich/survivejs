@@ -1,6 +1,8 @@
 import "./main.css";
 
 import React from "react";
+import "array.prototype.findindex"
+
 import App from "./components/App.jsx"
 
 main();
