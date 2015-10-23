@@ -3,49 +3,15 @@ import uuid from "node-uuid";
 import Notes from "./Notes.jsx";
 import NoteActions from "../actions/NoteActions";
 import NoteStore from "../stores/NoteStore";
+import connect from "../decorators/connect"
 
+
+@connect(NoteStore)
 
 export default class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.storeChanged = this.storeChanged.bind(this);
-    this.state = NoteStore.getState()
-  }
-
-
-  // -------------------------------------------------------------------------
-
-  componentDidMount() {
-    NoteStore.listen(this.storeChanged);
-  }
-
-  componentWillUnmount() {
-    NoteStore.unlisten(this.storeChanged);
-  }
-
-  storeChanged(state) {
-    this.setState(state);
-  }
-
-  addNote() {
-    NoteActions.create({task: "New Task"})
-  }
-
-  deleteNote(id) {
-    NoteActions.delete(id)
-  }
-
-  editNote(id, task) {
-    NoteActions.update({id, task})
-  }
-
-
-  // -------------------------------------------------------------------------
-
   render() {
-    const notes = this.state.notes
+    const notes = this.props.notes
 
     return (
       <div>
@@ -64,6 +30,19 @@ export default class App extends React.Component {
     );
   }
 
+  // -------------------------------------------------------------------------
 
+
+  addNote() {
+    NoteActions.create({task: "New Task"})
+  }
+
+  deleteNote(id) {
+    NoteActions.delete(id)
+  }
+
+  editNote(id, task) {
+    NoteActions.update({id, task})
+  }
 
 }
