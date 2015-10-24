@@ -1,3 +1,5 @@
+// Decorator example, no longer in use
+
 import React from "react";
 
 const connect = (Component, store) => {

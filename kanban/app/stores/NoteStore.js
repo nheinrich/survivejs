@@ -10,6 +10,9 @@ class NoteStore {
   constructor() {
     this.bindActions(NoteActions);
     this.notes = [];
+    this.exportPublicMethods({
+      get: this.get.bind(this)
+    })
   }
 
   create(note) {
@@ -18,6 +21,17 @@ class NoteStore {
     this.setState({
       notes: notes.concat(note)
     });
+  }
+
+  get(ids) {
+    // if (ids) {
+    //   return (ids || []).map((id) => this.notes[this.findNote(id)]).filter((a) => a))
+    // } else {
+    //   return []
+    // }
+    return (
+      (ids || []).map((id) => this.notes[this.findNote(id)]).filter((a) => a)
+    )
   }
 
   update({id, task}) {
