@@ -47,15 +47,27 @@ export default class LaneStore {
       noteId = NoteStore.getState().notes.slice(-1)[0].id;
     }
     const lanes = this.lanes;
-    const laneIndex = this.findLane(laneId);
-    if (laneIndex < 0) {return;}
-    const lane = lanes[laneIndex]
+    const targetId = this.findLane(laneId);
+    if (targetId < 0) { return; }
+    this.removeNote(noteId);
+    const lane = lanes[targetId]
     if (lane.notes.indexOf(noteId) === -1) {
       lane.notes.push(noteId);
       this.setState({lanes})
     } else {
       console.warn("Already attached note to lane", lanes)
     }
+  }
+
+  removeNote(noteId) {
+    const lanes = this.lanes;
+    const removeLane = lanes.filter((lane) => {
+      return lane.notes.indexOf(noteId) >= 0;
+    })[0]
+    if (!removeLane) {return;}
+    const removeNoteIndex = removeLane.notes.indexOf(noteId);
+    removeLane.notes = removeLane.notes.slice(0, removeNoteIndex).
+    concat(removeLane.notes.slice(removeNoteIndex + 1));
   }
 
   detachFromLane({laneId, noteId}) {
