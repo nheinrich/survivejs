@@ -56,3 +56,9 @@ if (TARGET === "start" || !TARGET) {
   });
 }
 
+if (TARGET === "build") {
+  module.exports = merge(common, {
+    devtool: "source-map"
+  })
+}
+
