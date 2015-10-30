@@ -1,0 +1,18 @@
+Hash: 05f0124a84597b8d7ff8
+Version: webpack 1.12.2
+Time: 12880ms
+                              Asset       Size  Chunks             Chunk Names
+        app.4603963f4e3f7bb4f961.js      43 kB       0  [emitted]  app
+     vendor.b99864631c8f9e42d882.js     278 kB       1  [emitted]  vendor
+    styles.4603963f4e3f7bb4f961.css  819 bytes       0  [emitted]  app
+    app.4603963f4e3f7bb4f961.js.map     282 kB       0  [emitted]  app
+styles.4603963f4e3f7bb4f961.css.map  108 bytes       0  [emitted]  app
+ vendor.b99864631c8f9e42d882.js.map    2.31 MB       1  [emitted]  vendor
+                         index.html  334 bytes          [emitted]  
+   [0] multi vendor 88 bytes {1} [built]
+       factory:1ms building:1ms = 2ms
+    + 345 hidden modules
+
+ERROR in Entry module not found: Error: Cannot resolve module 'json' in /Users/neil/_/z/survivejs/kanban
+Child extract-text-webpack-plugin:
+        + 2 hidden modules
