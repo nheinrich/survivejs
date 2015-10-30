@@ -58,7 +58,19 @@ if (TARGET === "start" || !TARGET) {
 
 if (TARGET === "build") {
   module.exports = merge(common, {
-    devtool: "source-map"
+    devtool: "source-map",
+    plugins: [
+      new webpack.DefinePlugin({
+        "process.env": {
+          "NODE_ENV": JSON.stringify("prouction")
+        }
+      }),
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false
+        }
+      })
+    ]
   })
 }
 
