@@ -3,7 +3,8 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 var webpack = require("webpack");
 var merge = require("webpack-merge");
 var pkg = require("./package.json");
-var Clean = rquire("clean-webpack-plugin")
+var Clean = require("clean-webpack-plugin")
+var ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
@@ -23,11 +24,6 @@ var common = {
   },
   module: {
     loaders: [
-      {
-        test: /\.css$/,
-        loaders: ["style", "css"],
-        include: APP_PATH
-      },
       {
         test: /\.jsx?$/,
         loaders: ["babel"],
@@ -52,6 +48,15 @@ if (TARGET === "start" || !TARGET) {
       port: 8888,
       progress: true
     },
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loaders: ["style", "css"],
+          include: APP_PATH
+        }
+      ]
+    },
     plugins: [
       new webpack.HotModuleReplacementPlugin()
     ]
@@ -65,8 +70,18 @@ if (TARGET === "build") {
       vendor: Object.keys(pkg.dependencies)
     },
     devtool: "source-map",
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loader: ExtractTextPlugin.extract("style", "css"),
+          include: APP_PATH
+        }
+      ]
+    },
     plugins: [
       new Clean(["build"]),
+      new ExtractTextPlugin("styles.[chunkhash].css"),
       new webpack.DefinePlugin({
         "process.env": {
           "NODE_ENV": JSON.stringify("prouction")
