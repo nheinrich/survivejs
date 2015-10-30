@@ -2,6 +2,7 @@ var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var webpack = require("webpack");
 var merge = require("webpack-merge");
+var pkg = require("./package.json");
 
 var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
@@ -58,6 +59,10 @@ if (TARGET === "start" || !TARGET) {
 
 if (TARGET === "build") {
   module.exports = merge(common, {
+    entry: {
+      app: APP_PATH,
+      vendor: Object.keys(pkg.dependencies)
+    },
     devtool: "source-map",
     plugins: [
       new webpack.DefinePlugin({
@@ -65,12 +70,20 @@ if (TARGET === "build") {
           "NODE_ENV": JSON.stringify("prouction")
         }
       }),
+      new webpack.optimize.CommonsChunkPlugin(
+        "vendor",
+        "[name].[chunkhash].js"
+      ),
       new webpack.optimize.UglifyJsPlugin({
         compress: {
           warnings: false
         }
       })
-    ]
+    ],
+    output: {
+      path: BUILD_PATH,
+      filename: "[name].[chunkhash].js"
+    }
   })
 }
 
