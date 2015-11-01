@@ -10,6 +10,7 @@ var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
 var APP_PATH = path.resolve(ROOT_PATH, "app");
 var BUILD_PATH = path.resolve(ROOT_PATH, "build");
+var TEST_PATH = path.resolve(ROOT_PATH, "tests");
 
 process.env.BABEL_ENV = TARGET;
 
@@ -104,3 +105,31 @@ if (TARGET === "build" || TARGET === "stats") {
   })
 }
 
+if (TARGET === "test" || TARGET === "tdd") {
+  module.exports = merge(common, {
+    entry: {}, // karma will set this
+    output: {}, // karma will set this
+    devtool: "inline-source-map",
+    resolve: {
+      alias: {
+        "app": APP_PATH
+      }
+    },
+    module: {
+      preLoaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ["isparta-instrumenter"],
+          include: APP_PATH
+        }
+      ],
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ["babel"],
+          include: TEST_PATH
+        }
+      ]
+    }
+  });
+}
